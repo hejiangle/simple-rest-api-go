@@ -3,17 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/hejiangle/simple-rest-api-go/controllers"
 	"log"
 	"net/http"
 	"strconv"
 )
-
-func get(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/type")
-
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"message: "get called"}`))
-}
 
 func post(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Content-Type", "application/type")
@@ -77,7 +71,7 @@ func params(w http.ResponseWriter, r *http.Request){
 func main() {
 	r := mux.NewRouter()
 	api := r.PathPrefix("/api/v1").Subrouter()
-	api.HandleFunc("/", get).Methods(http.MethodGet)
+	api.HandleFunc("/healthyCheck", controllers.Healthy).Methods(http.MethodGet)
 	api.HandleFunc("/", post).Methods(http.MethodPost)
 	api.HandleFunc("/", put).Methods(http.MethodPut)
 	api.HandleFunc("/", delete).Methods(http.MethodDelete)
