@@ -62,6 +62,9 @@ func params(w http.ResponseWriter, r *http.Request){
 }
 
 func main() {
+
+	connectToDatabase()
+
 	r := mux.NewRouter()
 	api := r.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/healthyCheck", controllers.Healthy).Methods(http.MethodGet)
