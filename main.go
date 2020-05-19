@@ -1,9 +1,9 @@
 package main
 
 import (
+	"./controllers"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/hejiangle/simple-rest-api-go/controllers"
 	"log"
 	"net/http"
 	"strconv"
