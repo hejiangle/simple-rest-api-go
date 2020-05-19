@@ -9,13 +9,6 @@ import (
 	"strconv"
 )
 
-func post(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/type")
-
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(`{"message: "post called}`))
-}
-
 func put(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Content-Type", "application/type")
 
@@ -72,7 +65,7 @@ func main() {
 	r := mux.NewRouter()
 	api := r.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/healthyCheck", controllers.Healthy).Methods(http.MethodGet)
-	api.HandleFunc("/", post).Methods(http.MethodPost)
+	api.HandleFunc("/createItem", controllers.CreateTodoItem).Methods(http.MethodPost)
 	api.HandleFunc("/", put).Methods(http.MethodPut)
 	api.HandleFunc("/", delete).Methods(http.MethodDelete)
 	api.HandleFunc("/", notFound)
