@@ -47,7 +47,7 @@ func params(w http.ResponseWriter, r *http.Request){
 	pathParams := mux.Vars(r)
 	w.Header().Set("Content-Type", "application/type")
 
-	userID := -1
+	var userID int
 	var err error
 	if value, ok := pathParams["userID"]; ok {
 		userID, err = strconv.Atoi(value)
@@ -58,7 +58,7 @@ func params(w http.ResponseWriter, r *http.Request){
 		}
 	}
 
-	commentID := -1
+	var commentID int
 	if value, ok := pathParams["commentID"]; ok {
 		commentID, err = strconv.Atoi(value)
 		if err != nil {
