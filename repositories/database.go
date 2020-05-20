@@ -1,12 +1,12 @@
 package repositories
 
 import (
-	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-var database *sql.DB
+var database *gorm.DB
 
 const (
 	host = "localhost"
@@ -19,14 +19,7 @@ func ConnectToDatabase() {
 	connectionString := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable",
 		host, port, username, databaseName)
 
-	db, err := sql.Open("postgres", connectionString)
-	if err != nil {
-		panic(err)
-	}
-
-	//defer db.Close()
-
-	err = db.Ping()
+	db, err := gorm.Open("postgres", connectionString)
 	if err != nil {
 		panic(err)
 	}
@@ -36,6 +29,6 @@ func ConnectToDatabase() {
 	database = db
 }
 
-func GetDatabase() *sql.DB {
+func GetDatabase() *gorm.DB {
 	return database
 }

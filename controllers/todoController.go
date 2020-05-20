@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"../models"
 	"../repositories"
+	"../requestModels"
 	"encoding/json"
 	"net/http"
 )
@@ -10,14 +10,14 @@ import (
 func CreateTodoItem(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/type")
 
-	var requestModel models.TodoItemRequestModel
+	var requestModel requestModels.TodoItemRequestModel
 	err := json.NewDecoder(r.Body).Decode(&requestModel)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	todoItem :=repositories.CreateNewItem(requestModel)
+	todoItem :=repositories.CreateNewItem(requestModel.Content)
 
 	response, _ := json.Marshal(todoItem)
 

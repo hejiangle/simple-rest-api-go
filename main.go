@@ -65,6 +65,7 @@ func params(w http.ResponseWriter, r *http.Request){
 func main() {
 
 	repositories.ConnectToDatabase()
+	repositories.Migration()
 
 	r := mux.NewRouter()
 	api := r.PathPrefix("/api/v1").Subrouter()
