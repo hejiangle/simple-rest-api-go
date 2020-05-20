@@ -2,6 +2,7 @@ package main
 
 import (
 	"./controllers"
+	"./repositories"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -63,7 +64,7 @@ func params(w http.ResponseWriter, r *http.Request){
 
 func main() {
 
-	connectToDatabase()
+	repositories.ConnectToDatabase()
 
 	r := mux.NewRouter()
 	api := r.PathPrefix("/api/v1").Subrouter()

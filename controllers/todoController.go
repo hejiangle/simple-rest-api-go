@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"../models"
+	"../repositories"
 	"encoding/json"
 	"net/http"
-	"time"
 )
 
 func CreateTodoItem(w http.ResponseWriter, r *http.Request) {
@@ -17,11 +17,7 @@ func CreateTodoItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	todoItem := models.TodoItem{
-		Status: false,
-		Content: requestModel.Content,
-		Timestamp: time.Now(),
-	}
+	todoItem :=repositories.CreateNewItem(requestModel)
 
 	response, _ := json.Marshal(todoItem)
 

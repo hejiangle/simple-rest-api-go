@@ -1,4 +1,4 @@
-package main
+package repositories
 
 import (
 	"database/sql"
@@ -6,23 +6,25 @@ import (
 	_ "github.com/lib/pq"
 )
 
+var database *sql.DB
+
 const (
 	host = "localhost"
 	port = 5432
 	username = "jlhe"
-	database = "simple_api_demo"
+	databaseName = "simple_api_demo"
 )
 
-func connectToDatabase() {
+func ConnectToDatabase() {
 	connectionString := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable",
-		host, port, username, database)
+		host, port, username, databaseName)
 
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		panic(err)
 	}
 
-	defer db.Close()
+	//defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
@@ -30,4 +32,10 @@ func connectToDatabase() {
 	}
 
 	fmt.Println("Successfully connected!")
+
+	database = db
+}
+
+func GetDatabase() *sql.DB {
+	return database
 }
