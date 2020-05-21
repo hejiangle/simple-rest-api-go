@@ -71,6 +71,7 @@ func main() {
 	api := r.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/healthyCheck", controllers.Healthy).Methods(http.MethodGet)
 	api.HandleFunc("/createItem", controllers.CreateTodoItem).Methods(http.MethodPost)
+	api.HandleFunc("/todoItems", controllers.TodoItems).Methods(http.MethodGet)
 	api.HandleFunc("/", put).Methods(http.MethodPut)
 	api.HandleFunc("/", delete).Methods(http.MethodDelete)
 	api.HandleFunc("/", notFound)

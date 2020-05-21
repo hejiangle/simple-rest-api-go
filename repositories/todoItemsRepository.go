@@ -15,7 +15,19 @@ func CreateNewItem(content string) dto.TodoItem {
 	return todoItem
 }
 
-func Migration() {
-	database.DropTableIfExists(&dto.TodoItem{})
-	database.AutoMigrate(&dto.TodoItem{})
+func GetTodoItems() []dto.TodoItem {
+	var todoItems []dto.TodoItem
+	database.Find(&todoItems)
+
+	return todoItems
+}
+
+func initToDoItems() []dto.TodoItem{
+	items := append([]dto.TodoItem{},
+	dto.TodoItem{ Status: false, Content: "the first test message" },
+	dto.TodoItem{ Status: false, Content: "the second test message" },
+	dto.TodoItem{ Status: false, Content: "the third test message" },
+	)
+
+	return items
 }

@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"../dto"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -27,4 +28,13 @@ func ConnectToDatabase() {
 	fmt.Println("Successfully connected!")
 
 	database = db
+}
+
+func Migration() {
+	database.DropTableIfExists(&dto.TodoItem{})
+	database.AutoMigrate(&dto.TodoItem{})
+	initData := initToDoItems()
+	for _, item := range initData {
+		database.Create(&item)
+	}
 }

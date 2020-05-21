@@ -24,3 +24,14 @@ func CreateTodoItem(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(response)
 }
+
+func TodoItems(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/type")
+
+	todoItems := repositories.GetTodoItems()
+
+	response, _ := json.Marshal(todoItems)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
+}
