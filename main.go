@@ -34,8 +34,8 @@ func main() {
 	api.HandleFunc("/todoItems/", controllers.CreateTodoItem).Methods(http.MethodPost)
 	api.HandleFunc("/todoItems/{id}", controllers.GetToDoItem).Methods(http.MethodGet)
 	api.HandleFunc("/todoItems/{id}", controllers.EditToDoItem).Methods(http.MethodPut)
+	api.HandleFunc("/todoItems/{id}", controllers.DeleteToDoItem).Methods(http.MethodDelete)
 
-	api.HandleFunc("/", delete).Methods(http.MethodDelete)
 	api.HandleFunc("/", notFound)
 
 	log.Fatal(http.ListenAndServe(":8080", r))

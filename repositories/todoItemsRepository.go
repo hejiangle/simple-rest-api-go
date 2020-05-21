@@ -36,6 +36,10 @@ func UpdateTodoItem(id int, content string) dto.TodoItem {
 	return item
 }
 
+func DeleteToDoItem(id int) {
+	database.Where("id = ?", id).Delete(&dto.TodoItem{})
+}
+
 func initToDoItems() []dto.TodoItem {
 	items := append([]dto.TodoItem{},
 		dto.TodoItem{Status: false, Content: "the first test message"},

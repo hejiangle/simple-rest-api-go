@@ -80,8 +80,24 @@ func EditToDoItem(w http.ResponseWriter, r *http.Request) {
 
 	response, _ := json.Marshal(todoItem)
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusAccepted)
 	w.Write(response)
+}
+
+func DeleteToDoItem(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Content-Type", "application/json")
+	pathParams := mux.Vars(r)
+
+	id, err := resolvePathToGetId(pathParams)
+
+	if err != nil && id == -1 {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	repositories.DeleteToDoItem(id)
+
+	w.WriteHeader(http.StatusAccepted)
 }
 
 func resolvePathToGetId(params map[string]string) (int, error){
