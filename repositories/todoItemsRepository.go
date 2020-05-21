@@ -29,6 +29,13 @@ func GetTodoItem(id int) dto.TodoItem {
 	return item
 }
 
+func UpdateTodoItem(id int, content string) dto.TodoItem {
+	var item dto.TodoItem
+	database.Model(&item).Where("id = ?", id).Update("content", content)
+
+	return item
+}
+
 func initToDoItems() []dto.TodoItem {
 	items := append([]dto.TodoItem{},
 		dto.TodoItem{Status: false, Content: "the first test message"},

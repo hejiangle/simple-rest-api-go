@@ -8,13 +8,6 @@ import (
 	"net/http"
 )
 
-func put(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	w.WriteHeader(http.StatusAccepted)
-	w.Write([]byte(`{"message": "put called"}`))
-}
-
 func delete(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -37,11 +30,11 @@ func main() {
 	r := mux.NewRouter()
 	api := r.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/healthyCheck", controllers.Healthy).Methods(http.MethodGet)
-	api.HandleFunc("/createItem", controllers.CreateTodoItem).Methods(http.MethodPost)
 	api.HandleFunc("/todoItems", controllers.TodoItems).Methods(http.MethodGet)
+	api.HandleFunc("/todoItems/", controllers.CreateTodoItem).Methods(http.MethodPost)
 	api.HandleFunc("/todoItems/{id}", controllers.GetToDoItem).Methods(http.MethodGet)
+	api.HandleFunc("/todoItems/{id}", controllers.EditToDoItem).Methods(http.MethodPut)
 
-	api.HandleFunc("/", put).Methods(http.MethodPut)
 	api.HandleFunc("/", delete).Methods(http.MethodDelete)
 	api.HandleFunc("/", notFound)
 
