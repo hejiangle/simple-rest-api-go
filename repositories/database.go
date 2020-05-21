@@ -10,9 +10,9 @@ import (
 var database *gorm.DB
 
 const (
-	host = "localhost"
-	port = 5432
-	username = "jlhe"
+	host         = "localhost"
+	port         = 5432
+	username     = "jlhe"
 	databaseName = "simple_api_demo"
 )
 

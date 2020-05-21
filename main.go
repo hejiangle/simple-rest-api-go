@@ -3,63 +3,30 @@ package main
 import (
 	"./controllers"
 	"./repositories"
-	"fmt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"strconv"
 )
 
-func put(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/type")
+func put(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 
 	w.WriteHeader(http.StatusAccepted)
 	w.Write([]byte(`{"message": "put called"}`))
 }
 
-func delete(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/type")
+func delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`{"message": "delete called"}`))
 }
 
-func notFound(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/type")
+func notFound(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 
 	w.WriteHeader(http.StatusNotFound)
 	w.Write([]byte(`{"message": "not found"}`))
-}
-
-func params(w http.ResponseWriter, r *http.Request){
-	pathParams := mux.Vars(r)
-	w.Header().Set("Content-Type", "application/type")
-
-	var userID int
-	var err error
-	if value, ok := pathParams["userID"]; ok {
-		userID, err = strconv.Atoi(value)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(`{"message": "need a number"}`))
-			return
-		}
-	}
-
-	var commentID int
-	if value, ok := pathParams["commentID"]; ok {
-		commentID, err = strconv.Atoi(value)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(`{"message": "need a number"}`))
-			return
-		}
-	}
-
-	query := r.URL.Query()
-	location := query.Get("location")
-
-	w.Write([]byte(fmt.Sprintf(`{"userID"": %d, "CommentID": %d, "location": %s }`, userID, commentID, location)))
 }
 
 func main() {
@@ -72,11 +39,11 @@ func main() {
 	api.HandleFunc("/healthyCheck", controllers.Healthy).Methods(http.MethodGet)
 	api.HandleFunc("/createItem", controllers.CreateTodoItem).Methods(http.MethodPost)
 	api.HandleFunc("/todoItems", controllers.TodoItems).Methods(http.MethodGet)
+	api.HandleFunc("/todoItems/{id}", controllers.GetToDoItem).Methods(http.MethodGet)
+
 	api.HandleFunc("/", put).Methods(http.MethodPut)
 	api.HandleFunc("/", delete).Methods(http.MethodDelete)
 	api.HandleFunc("/", notFound)
-
-	api.HandleFunc("/user/{userID}/comment/{commentID}", params).Methods(http.MethodGet)
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

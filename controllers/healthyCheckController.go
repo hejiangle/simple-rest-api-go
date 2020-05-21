@@ -2,7 +2,7 @@ package controllers
 
 import "net/http"
 
-func Healthy(w http.ResponseWriter, r *http.Request){
+func Healthy(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/type")
 
 	w.WriteHeader(http.StatusOK)

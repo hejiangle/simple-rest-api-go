@@ -4,7 +4,7 @@ import "../dto"
 
 func CreateNewItem(content string) dto.TodoItem {
 	todoItem := dto.TodoItem{
-		Status: false,
+		Status:  false,
 		Content: content,
 	}
 
@@ -22,11 +22,18 @@ func GetTodoItems() []dto.TodoItem {
 	return todoItems
 }
 
-func initToDoItems() []dto.TodoItem{
+func GetTodoItem(id int) dto.TodoItem {
+	var item dto.TodoItem
+	database.Where("id = ?", id).Find(&item)
+
+	return item
+}
+
+func initToDoItems() []dto.TodoItem {
 	items := append([]dto.TodoItem{},
-	dto.TodoItem{ Status: false, Content: "the first test message" },
-	dto.TodoItem{ Status: false, Content: "the second test message" },
-	dto.TodoItem{ Status: false, Content: "the third test message" },
+		dto.TodoItem{Status: false, Content: "the first test message"},
+		dto.TodoItem{Status: false, Content: "the second test message"},
+		dto.TodoItem{Status: false, Content: "the third test message"},
 	)
 
 	return items

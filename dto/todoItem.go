@@ -4,6 +4,6 @@ import "github.com/jinzhu/gorm"
 
 type TodoItem struct {
 	gorm.Model
-	Status bool
+	Status  bool
 	Content string
 }
