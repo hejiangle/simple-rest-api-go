@@ -36,6 +36,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "HealthyCheck"
+                ],
                 "summary": "healthy check for this service",
                 "responses": {
                     "200": {

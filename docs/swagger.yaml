@@ -16,4 +16,6 @@ paths:
           schema:
             type: string
       summary: healthy check for this service
+      tags:
+      - HealthyCheck
 swagger: "2.0"

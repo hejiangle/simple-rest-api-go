@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// @tag.name HealthyCheck
+// @tags HealthyCheck
 // @Summary healthy check for this service
 // @Produce json
 // @Success 200 {string} string "Get current api status"
