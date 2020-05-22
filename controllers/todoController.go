@@ -4,12 +4,15 @@ import (
 	"../repositories"
 	"../requestModels"
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
-func CreateTodoItem(w http.ResponseWriter, r *http.Request) {
+func CreateTodoItem(c *gin.Context) {
+	w := c.Writer
+	r := c.Request
 	w.Header().Set("Content-Type", "application/json")
 
 	var requestModel requestModels.TodoItemRequestModel
@@ -24,10 +27,12 @@ func CreateTodoItem(w http.ResponseWriter, r *http.Request) {
 	response, _ := json.Marshal(todoItem)
 
 	w.WriteHeader(http.StatusCreated)
-	w.Write(response)
+	_, _ = w.Write(response)
 }
 
-func TodoItems(w http.ResponseWriter, r *http.Request) {
+func TodoItems(c *gin.Context) {
+	w := c.Writer
+
 	w.Header().Set("Content-Type", "application/json")
 
 	todoItems := repositories.GetTodoItems()
@@ -35,10 +40,13 @@ func TodoItems(w http.ResponseWriter, r *http.Request) {
 	response, _ := json.Marshal(todoItems)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(response)
+	_, _ = w.Write(response)
 }
 
-func GetToDoItem(w http.ResponseWriter, r *http.Request) {
+func GetToDoItem(c *gin.Context) {
+	w := c.Writer
+	r := c.Request
+
 	w.Header().Set("Content-Type", "application/json")
 	pathParams := mux.Vars(r)
 
@@ -54,10 +62,13 @@ func GetToDoItem(w http.ResponseWriter, r *http.Request) {
 	response, _ := json.Marshal(todoItem)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(response)
+	_, _ = w.Write(response)
 }
 
-func EditToDoItem(w http.ResponseWriter, r *http.Request) {
+func EditToDoItem(c *gin.Context) {
+	w := c.Writer
+	r := c.Request
+
 	w.Header().Set("Content-Type", "application/json")
 	pathParams := mux.Vars(r)
 
@@ -81,10 +92,13 @@ func EditToDoItem(w http.ResponseWriter, r *http.Request) {
 	response, _ := json.Marshal(todoItem)
 
 	w.WriteHeader(http.StatusAccepted)
-	w.Write(response)
+	_, _ = w.Write(response)
 }
 
-func DeleteToDoItem(w http.ResponseWriter, r *http.Request){
+func DeleteToDoItem(c *gin.Context){
+	w := c.Writer
+	r := c.Request
+
 	w.Header().Set("Content-Type", "application/json")
 	pathParams := mux.Vars(r)
 

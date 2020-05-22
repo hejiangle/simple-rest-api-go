@@ -1,0 +1,19 @@
+info:
+  contact:
+    email: jiangle.he@foxmail.com
+    name: hejiangle
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /healthyCheck:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get current api status
+          schema:
+            type: string
+      summary: healthy check for this service
+swagger: "2.0"
