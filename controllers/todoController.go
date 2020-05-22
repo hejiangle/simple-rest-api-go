@@ -70,7 +70,7 @@ func GetToDoItem(c *gin.Context) {
 // @Param id path int true "To do item ID" Format(int64)
 // @Param content body applicationModels.TodoItemRequestModel true "Edit item by id"
 // @Success 202 {object} dto.TodoItem
-// @Router /todoItems/{id} [put]
+// @Router /todoItems/{id} [patch]
 func EditToDoItem(c *gin.Context) {
 	c.Header("Content-Type", "application/json")
 	pathParams := c.Param("id")
@@ -90,7 +90,7 @@ func EditToDoItem(c *gin.Context) {
 		return
 	}
 
-	todoItem := repositories.UpdateTodoItem(id, requestModel.Content)
+	todoItem := repositories.UpdateTodoItem(id, requestModel.Content, requestModel.Status)
 
 	c.JSON(http.StatusAccepted, todoItem)
 }

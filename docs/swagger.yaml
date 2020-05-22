@@ -10,6 +10,8 @@ definitions:
     properties:
       content:
         type: string
+      status:
+        type: boolean
     type: object
   dto.TodoItem:
     properties:
@@ -108,7 +110,7 @@ paths:
       summary: Get the to do item by ID
       tags:
       - TodoList
-    put:
+    patch:
       parameters:
       - description: To do item ID
         format: int64

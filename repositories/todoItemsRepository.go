@@ -1,6 +1,8 @@
 package repositories
 
-import "../dto"
+import (
+	"../dto"
+)
 
 func CreateNewItem(content string) dto.TodoItem {
 	todoItem := dto.TodoItem{
@@ -29,9 +31,23 @@ func GetTodoItem(id int) dto.TodoItem {
 	return item
 }
 
-func UpdateTodoItem(id int, content string) dto.TodoItem {
+func UpdateTodoItem(id int, content string, status bool) dto.TodoItem {
 	var item dto.TodoItem
-	database.Model(&item).Where("id = ?", id).Update("content", content)
+	database.Find(&item, "id = ?", id)
+
+	if content != "" && content != item.Content && status != item.Status {
+		database.Model(&item).Where("id = ?", id).Updates(map[string]interface{}{"content": content, "status": status})
+		return item
+	}
+
+	if content != "" && content != item.Content {
+		database.Model(&item).Where("id = ?", id).Update("content", content)
+		return item
+	}
+
+	if status != item.Status {
+		database.Model(&item).Where("id = ?", id).Update("status", status)
+	}
 
 	return item
 }

@@ -130,7 +130,34 @@ var doc = `{
                     }
                 }
             },
-            "put": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TodoList"
+                ],
+                "summary": "Delete the to do item by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "To do item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TodoItem"
+                        }
+                    }
+                }
+            },
+            "patch": {
                 "produces": [
                     "application/json"
                 ],
@@ -165,33 +192,6 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "TodoList"
-                ],
-                "summary": "Delete the to do item by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "format": "int64",
-                        "description": "To do item ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content",
-                        "schema": {
-                            "$ref": "#/definitions/dto.TodoItem"
-                        }
-                    }
-                }
             }
         }
     },
@@ -212,6 +212,9 @@ var doc = `{
             "properties": {
                 "content": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
                 }
             }
         },
