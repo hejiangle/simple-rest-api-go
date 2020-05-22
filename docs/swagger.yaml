@@ -1,3 +1,23 @@
+definitions:
+  applicationModels.HealthyCheckResponse:
+    properties:
+      message:
+        type: string
+      version:
+        type: string
+    type: object
+  applicationModels.TodoItemRequestModel:
+    properties:
+      content:
+        type: string
+    type: object
+  dto.TodoItem:
+    properties:
+      content:
+        type: string
+      status:
+        type: boolean
+    type: object
 info:
   contact:
     email: jiangle.he@foxmail.com
@@ -14,8 +34,102 @@ paths:
         "200":
           description: Get current api status
           schema:
-            type: string
+            $ref: '#/definitions/applicationModels.HealthyCheckResponse'
       summary: healthy check for this service
       tags:
       - HealthyCheck
+  /todoItems:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.TodoItem'
+            type: array
+      summary: Get all to do items
+      tags:
+      - TodoList
+  /todoItems/:
+    post:
+      parameters:
+      - description: Create item
+        in: body
+        name: content
+        required: true
+        schema:
+          $ref: '#/definitions/applicationModels.TodoItemRequestModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.TodoItem'
+      summary: Create a new to do item
+      tags:
+      - TodoList
+  /todoItems/{id}:
+    delete:
+      parameters:
+      - description: To do item ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/dto.TodoItem'
+      summary: Delete the to do item by ID
+      tags:
+      - TodoList
+    get:
+      parameters:
+      - description: To do item ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.TodoItem'
+      summary: Get the to do item by ID
+      tags:
+      - TodoList
+    put:
+      parameters:
+      - description: To do item ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Edit item by id
+        in: body
+        name: content
+        required: true
+        schema:
+          $ref: '#/definitions/applicationModels.TodoItemRequestModel'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/dto.TodoItem'
+      summary: Edit the to do item by ID
+      tags:
+      - TodoList
 swagger: "2.0"

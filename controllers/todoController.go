@@ -1,127 +1,128 @@
 package controllers
 
 import (
+	_ "../dto"
 	"../repositories"
-	"../requestModels"
-	"encoding/json"
+	"../applicationModels"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
+// @tags TodoList
+// @Summary Create a new to do item
+// @Produce json
+// @Param content body applicationModels.TodoItemRequestModel true "Create item"
+// @Success 200 {object} dto.TodoItem
+// @Router /todoItems/ [post]
 func CreateTodoItem(c *gin.Context) {
-	w := c.Writer
-	r := c.Request
-	w.Header().Set("Content-Type", "application/json")
-
-	var requestModel requestModels.TodoItemRequestModel
-	err := json.NewDecoder(r.Body).Decode(&requestModel)
+	c.Header("Content-Type", "application/json")
+	var requestModel applicationModels.TodoItemRequestModel
+	err := c.ShouldBindJSON(&requestModel)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(c.Writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	todoItem := repositories.CreateNewItem(requestModel.Content)
 
-	response, _ := json.Marshal(todoItem)
-
-	w.WriteHeader(http.StatusCreated)
-	_, _ = w.Write(response)
+	c.JSON(http.StatusCreated, todoItem)
 }
 
+// @tags TodoList
+// @Summary Get all to do items
+// @Produce json
+// @Success 200 {array} dto.TodoItem
+// @Router /todoItems [get]
 func TodoItems(c *gin.Context) {
-	w := c.Writer
-
-	w.Header().Set("Content-Type", "application/json")
+	c.Header("Content-Type", "application/json")
 
 	todoItems := repositories.GetTodoItems()
 
-	response, _ := json.Marshal(todoItems)
-
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(response)
+	c.JSON(http.StatusOK, todoItems)
 }
 
+// @tags TodoList
+// @Summary Get the to do item by ID
+// @Produce json
+// @Param id path int true "To do item ID" Format(int64)
+// @Success 200 {object} dto.TodoItem
+// @Router /todoItems/{id} [get]
 func GetToDoItem(c *gin.Context) {
-	w := c.Writer
-	r := c.Request
-
-	w.Header().Set("Content-Type", "application/json")
-	pathParams := mux.Vars(r)
+	c.Header("Content-Type", "application/json")
+	pathParams := c.Param("id")
 
 	id, err := resolvePathToGetId(pathParams)
 
 	if err != nil && id == -1 {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(c.Writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	todoItem := repositories.GetTodoItem(id)
 
-	response, _ := json.Marshal(todoItem)
-
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(response)
+	c.JSON(http.StatusOK, todoItem)
 }
 
+// @tags TodoList
+// @Summary Edit the to do item by ID
+// @Produce json
+// @Param id path int true "To do item ID" Format(int64)
+// @Param content body applicationModels.TodoItemRequestModel true "Edit item by id"
+// @Success 202 {object} dto.TodoItem
+// @Router /todoItems/{id} [put]
 func EditToDoItem(c *gin.Context) {
-	w := c.Writer
-	r := c.Request
-
-	w.Header().Set("Content-Type", "application/json")
-	pathParams := mux.Vars(r)
+	c.Header("Content-Type", "application/json")
+	pathParams := c.Param("id")
 
 	id, pathErr := resolvePathToGetId(pathParams)
 
 	if pathErr != nil && id == -1 {
-		http.Error(w, pathErr.Error(), http.StatusBadRequest)
+		http.Error(c.Writer, pathErr.Error(), http.StatusBadRequest)
 		return
 	}
 
-	var requestModel requestModels.TodoItemRequestModel
-	bodyErr := json.NewDecoder(r.Body).Decode(&requestModel)
+	var requestModel applicationModels.TodoItemRequestModel
+	bodyErr := c.ShouldBindJSON(&requestModel)
 
 	if bodyErr != nil {
-		http.Error(w, bodyErr.Error(), http.StatusBadRequest)
+		http.Error(c.Writer, bodyErr.Error(), http.StatusBadRequest)
 		return
 	}
 
 	todoItem := repositories.UpdateTodoItem(id, requestModel.Content)
 
-	response, _ := json.Marshal(todoItem)
-
-	w.WriteHeader(http.StatusAccepted)
-	_, _ = w.Write(response)
+	c.JSON(http.StatusAccepted, todoItem)
 }
 
+// @tags TodoList
+// @Summary Delete the to do item by ID
+// @Produce json
+// @Param id path int true "To do item ID" Format(int64)
+// @Success 204 {object} dto.TodoItem
+// @Router /todoItems/{id} [delete]
 func DeleteToDoItem(c *gin.Context){
-	w := c.Writer
-	r := c.Request
-
-	w.Header().Set("Content-Type", "application/json")
-	pathParams := mux.Vars(r)
+	c.Header("Content-Type", "application/json")
+	pathParams := c.Param("id")
 
 	id, err := resolvePathToGetId(pathParams)
 
 	if err != nil && id == -1 {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(c.Writer, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	repositories.DeleteToDoItem(id)
 
-	w.WriteHeader(http.StatusAccepted)
+	c.JSON(http.StatusNoContent, gin.H{})
 }
 
-func resolvePathToGetId(params map[string]string) (int, error){
+func resolvePathToGetId(params string) (int, error){
 	var id int
 	var err error
-	if value, ok := params["id"]; ok {
-		id, err = strconv.Atoi(value)
-		if err != nil {
-			return -1, err
-		}
+	id, err = strconv.Atoi(params)
+	if err != nil {
+		return -1, err
 	}
 	return id, nil
 }

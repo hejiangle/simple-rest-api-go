@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	models "../applicationModels"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -8,12 +9,12 @@ import (
 // @tags HealthyCheck
 // @Summary healthy check for this service
 // @Produce json
-// @Success 200 {string} string "Get current api status"
+// @Success 200 {object} applicationModels.HealthyCheckResponse "Get current api status"
 // @Router /healthyCheck [get]
 func Healthy(c *gin.Context) {
-	w := c.Writer
-	w.Header().Set("Content-Type", "application/type")
-
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte(`{"message": "Welcome to simple api demo", "version": "1.0"}`))
+	c.Header("Content-Type", "application/json")
+	c.JSON(http.StatusOK, models.HealthyCheckResponse{
+		Message: "Welcome to simple api demo",
+		Version: "1.0.0",
+	})
 }

@@ -24,9 +24,185 @@
                     "200": {
                         "description": "Get current api status",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/applicationModels.HealthyCheckResponse"
                         }
                     }
+                }
+            }
+        },
+        "/todoItems": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TodoList"
+                ],
+                "summary": "Get all to do items",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.TodoItem"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/todoItems/": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TodoList"
+                ],
+                "summary": "Create a new to do item",
+                "parameters": [
+                    {
+                        "description": "Create item",
+                        "name": "content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/applicationModels.TodoItemRequestModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TodoItem"
+                        }
+                    }
+                }
+            }
+        },
+        "/todoItems/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TodoList"
+                ],
+                "summary": "Get the to do item by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "To do item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TodoItem"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TodoList"
+                ],
+                "summary": "Edit the to do item by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "To do item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Edit item by id",
+                        "name": "content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/applicationModels.TodoItemRequestModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TodoItem"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TodoList"
+                ],
+                "summary": "Delete the to do item by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "To do item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TodoItem"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "applicationModels.HealthyCheckResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "applicationModels.TodoItemRequestModel": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.TodoItem": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
                 }
             }
         }

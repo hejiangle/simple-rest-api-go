@@ -30,10 +30,10 @@ func main() {
 		todos := v1.Group("/todoItems")
 		{
 			todos.GET("", controllers.TodoItems)
-			todos.POST("/", controllers.CreateTodoItem)
-			todos.GET("/{id}", controllers.GetToDoItem)
-			todos.PUT("/{id}", controllers.EditToDoItem)
-			todos.DELETE("/{id}", controllers.DeleteToDoItem)
+			todos.POST("", controllers.CreateTodoItem)
+			todos.GET(":id", controllers.GetToDoItem)
+			todos.PUT(":id", controllers.EditToDoItem)
+			todos.DELETE(":id", controllers.DeleteToDoItem)
 		}
 	}
 
