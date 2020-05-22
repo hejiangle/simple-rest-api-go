@@ -1,4 +1,4 @@
-package applicationModels
+package application_models
 
 type TodoItemRequestModel struct {
 	Content string

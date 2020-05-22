@@ -44,7 +44,7 @@ var doc = `{
                     "200": {
                         "description": "Get current api status",
                         "schema": {
-                            "$ref": "#/definitions/applicationModels.HealthyCheckResponse"
+                            "$ref": "#/definitions/application_models.HealthyCheckResponse"
                         }
                     }
                 }
@@ -88,7 +88,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/applicationModels.TodoItemRequestModel"
+                            "$ref": "#/definitions/application_models.TodoItemRequestModel"
                         }
                     }
                 ],
@@ -180,7 +180,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/applicationModels.TodoItemRequestModel"
+                            "$ref": "#/definitions/application_models.TodoItemRequestModel"
                         }
                     }
                 ],
@@ -196,7 +196,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "applicationModels.HealthyCheckResponse": {
+        "application_models.HealthyCheckResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -207,7 +207,7 @@ var doc = `{
                 }
             }
         },
-        "applicationModels.TodoItemRequestModel": {
+        "application_models.TodoItemRequestModel": {
             "type": "object",
             "properties": {
                 "content": {

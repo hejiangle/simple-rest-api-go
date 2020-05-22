@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"../applicationModels"
+	"../application_models"
 	_ "../dto"
 	"../repositories"
 	"github.com/gin-gonic/gin"
@@ -12,12 +12,12 @@ import (
 // @tags TodoList
 // @Summary Create a new to do item
 // @Produce json
-// @Param content body applicationModels.TodoItemRequestModel true "Create item"
+// @Param content body application_models.TodoItemRequestModel true "Create item"
 // @Success 200 {object} dto.TodoItem
 // @Router /todoItems/ [post]
 func CreateTodoItem(c *gin.Context) {
 	c.Header("Content-Type", "application/json")
-	var requestModel applicationModels.TodoItemRequestModel
+	var requestModel application_models.TodoItemRequestModel
 	err := c.ShouldBindJSON(&requestModel)
 	if err != nil {
 		http.Error(c.Writer, err.Error(), http.StatusBadRequest)
@@ -68,7 +68,7 @@ func GetToDoItem(c *gin.Context) {
 // @Summary Edit the to do item by ID
 // @Produce json
 // @Param id path int true "To do item ID" Format(int64)
-// @Param content body applicationModels.TodoItemRequestModel true "Edit item by id"
+// @Param content body application_models.TodoItemRequestModel true "Edit item by id"
 // @Success 202 {object} dto.TodoItem
 // @Router /todoItems/{id} [patch]
 func EditToDoItem(c *gin.Context) {
@@ -82,7 +82,7 @@ func EditToDoItem(c *gin.Context) {
 		return
 	}
 
-	var requestModel applicationModels.TodoItemRequestModel
+	var requestModel application_models.TodoItemRequestModel
 	bodyErr := c.ShouldBindJSON(&requestModel)
 
 	if bodyErr != nil {

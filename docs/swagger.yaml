@@ -36,7 +36,7 @@ paths:
         "200":
           description: Get current api status
           schema:
-            $ref: '#/definitions/applicationModels.HealthyCheckResponse'
+            $ref: '#/definitions/application_models.HealthyCheckResponse'
       summary: healthy check for this service
       tags:
       - HealthyCheck
@@ -62,7 +62,7 @@ paths:
         name: content
         required: true
         schema:
-          $ref: '#/definitions/applicationModels.TodoItemRequestModel'
+          $ref: '#/definitions/application_models.TodoItemRequestModel'
       produces:
       - application/json
       responses:
@@ -123,7 +123,7 @@ paths:
         name: content
         required: true
         schema:
-          $ref: '#/definitions/applicationModels.TodoItemRequestModel'
+          $ref: '#/definitions/application_models.TodoItemRequestModel'
       produces:
       - application/json
       responses:
