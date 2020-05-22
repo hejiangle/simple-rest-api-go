@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"../applicationModels"
 	_ "../dto"
 	"../repositories"
-	"../applicationModels"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -101,7 +101,7 @@ func EditToDoItem(c *gin.Context) {
 // @Param id path int true "To do item ID" Format(int64)
 // @Success 204 {object} dto.TodoItem
 // @Router /todoItems/{id} [delete]
-func DeleteToDoItem(c *gin.Context){
+func DeleteToDoItem(c *gin.Context) {
 	c.Header("Content-Type", "application/json")
 	pathParams := c.Param("id")
 
@@ -117,7 +117,7 @@ func DeleteToDoItem(c *gin.Context){
 	c.JSON(http.StatusNoContent, gin.H{})
 }
 
-func resolvePathToGetId(params string) (int, error){
+func resolvePathToGetId(params string) (int, error) {
 	var id int
 	var err error
 	id, err = strconv.Atoi(params)
